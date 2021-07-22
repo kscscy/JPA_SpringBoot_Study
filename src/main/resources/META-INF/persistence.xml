@@ -18,7 +18,8 @@
             <property name="hibernate.use_sql_comments" value="true"/>
             <!-- size 만큼 모아서 한방에 DB에 쿼리를 보낸다 -->
             <property name="hibernate.jdbc.batch_size" value="10"/>
-            <!-- <property name="hibernate.hbm2ddl.auto" value="create" />-->
+            <!-- App 실행 시 DROP, CREATE 문을 실행해줌 -->
+            <property name="hibernate.hbm2ddl.auto" value="create"/>
         </properties>
     </persistence-unit>
 </persistence>
