@@ -15,6 +15,12 @@ public class Member {
     @Column(name = "USERNAME")
     private String username;
 
+    @ManyToOne
+    @JoinColumn(name = "TEAM_ID",
+            // 읽기 전용: insert, update 안함
+            insertable = false, updatable = false)
+    private Team team;
+
     public Long getId() {
         return id;
     }
