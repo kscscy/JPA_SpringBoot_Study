@@ -18,44 +18,36 @@ public class JpaMain {
         try {
             // 영속
 
-//            Member member = new Member();
-//            member.setUsername("CC");
-//            em.persist(member);
-            /*
-                sequence strategy
-                MEMBER_SEQ 의 다음값을 DB에서 가져온다
-                call next value for MEMBER_SEQ
+            // 저장
+            Team team = new Team();
+            team.setName("TeamA");
+            em.persist(team);
 
-             */
+            Member member = new Member();
+            member.setUsername("member1");
+            //member.setTeamId(team.getId()); // 객체지향스럽지 않은 코드
+            member.setTeam(team); // jpa가 알아서 team 에서 PK를 꺼내서 FK로 사용함
+            em.persist(member);
 
-//            System.out.println("member.getId() = " + member.getId());
+            em.flush();
+            em.clear(); // 영속성 컨텍스트 초기화
 
-            Member member1 = new Member();
-            member1.setUsername("A");
+            Member findMember = em.find(Member.class, member.getId());
+            List<Member> members = findMember.getTeam().getMembers();
 
-            Member member2 = new Member();
-            member2.setUsername("B");
+            for (Member m : members) {
+                System.out.println("m = " + m.getUsername());
+            }
 
-            Member member3 = new Member();
-            member3.setUsername("C");
-
-            System.out.println("=============================");
-
-            // 처음 호출하면
-            // DB SEQ = 1  | App 1
-            // 그 다음
-            // DB SEQ = 51 | App 2
-            // DB SEQ = 51 | App 3
-
-            em.persist(member1);    // 1, 51
-//            em.persist(member2);    // Memory
-//            em.persist(member3);    // Memory
-
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member2.getId());
-            System.out.println("member3 = " + member3.getId());
+//            Long findTeamId = findMember.getTeamId();
+//            Team findTeam = em.find(Team.class, findTeamId);
+//            Team findTeam = findMember.getTeam(); // 이제는 바로 꺼낼 수 있다
 
             System.out.println("=============================");
+
+            // DB에 TeamB(100L) 있다고 가정
+//            Team newTeam = em.find(Team.class, 100L);
+//            findMember.setTeam(newTeam); // FK update
 
             tx.commit();
         } catch (Exception e) {
