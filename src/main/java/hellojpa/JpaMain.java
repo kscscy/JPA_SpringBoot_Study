@@ -21,33 +21,37 @@ public class JpaMain {
             // 저장
             Team team = new Team();
             team.setName("TeamA");
+//            team.getMembers().add(member);
             em.persist(team);
 
             Member member = new Member();
             member.setUsername("member1");
-            //member.setTeamId(team.getId()); // 객체지향스럽지 않은 코드
-            member.setTeam(team); // jpa가 알아서 team 에서 PK를 꺼내서 FK로 사용함
+//            member.changeTeam(team); // 연관관계의 주인에 값을 입력
             em.persist(member);
+
+            // 이 과정을 생략하면?
+            /*
+            * 영속성 컨텍스트를 초기화 하지 않으면 1차 캐시에 값이 생성되지 않는다.
+            * 순수한 객체 상태가 되어 select 쿼리가 나가지 않음
+            *
+            * */
+//            team.getMembers().add(member);
+
+            team.addMember(member);
 
             em.flush();
             em.clear(); // 영속성 컨텍스트 초기화
-
-            Member findMember = em.find(Member.class, member.getId());
-            List<Member> members = findMember.getTeam().getMembers();
+            
+            Team findTeam = em.find(Team.class, team.getId());
+            List<Member> members = findTeam.getMembers();
 
             for (Member m : members) {
-                System.out.println("m = " + m.getUsername());
+                System.out.println("m.getUsername() = " + m.getUsername());
             }
 
-//            Long findTeamId = findMember.getTeamId();
-//            Team findTeam = em.find(Team.class, findTeamId);
-//            Team findTeam = findMember.getTeam(); // 이제는 바로 꺼낼 수 있다
+            System.out.println("members = " + findTeam);
 
             System.out.println("=============================");
-
-            // DB에 TeamB(100L) 있다고 가정
-//            Team newTeam = em.find(Team.class, 100L);
-//            findMember.setTeam(newTeam); // FK update
 
             tx.commit();
         } catch (Exception e) {
