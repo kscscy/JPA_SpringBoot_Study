@@ -13,14 +13,9 @@ public class Team {
     private Long id;
     private String name;
 
-    // 일대다 연결, 나는 뭐랑 연결돼있지? mappedBy
-    @OneToMany(mappedBy = "team")
+    @OneToMany
+    @JoinColumn(name = "TEAM_ID")
     private List<Member> members = new ArrayList<>(); // 관례 (null Exception 방지)
-
-    public void addMember(Member member) {
-        member.setTeam(this);
-        members.add(member);
-    }
 
     public Long getId() {
         return id;
@@ -46,12 +41,4 @@ public class Team {
         this.members = members;
     }
 
-//    @Override
-//    public String toString() {
-//        return "Team{" +
-//                "id=" + id +
-//                ", name='" + name + '\'' +
-//                ", members=" + members +
-//                '}';
-//    }
 }

@@ -18,38 +18,17 @@ public class JpaMain {
         try {
             // 영속
 
-            // 저장
-            Team team = new Team();
-            team.setName("TeamA");
-//            team.getMembers().add(member);
-            em.persist(team);
-
             Member member = new Member();
             member.setUsername("member1");
-//            member.changeTeam(team); // 연관관계의 주인에 값을 입력
+
             em.persist(member);
 
-            // 이 과정을 생략하면?
-            /*
-            * 영속성 컨텍스트를 초기화 하지 않으면 1차 캐시에 값이 생성되지 않는다.
-            * 순수한 객체 상태가 되어 select 쿼리가 나가지 않음
-            *
-            * */
-//            team.getMembers().add(member);
+            Team team = new Team();
+            team.setName("teamA");
+            // 이 내용은 Team 테이블에 insert 될만한 내용이 아니다
+            team.getMembers().add(member);
 
-            team.addMember(member);
-
-            em.flush();
-            em.clear(); // 영속성 컨텍스트 초기화
-            
-            Team findTeam = em.find(Team.class, team.getId());
-            List<Member> members = findTeam.getMembers();
-
-            for (Member m : members) {
-                System.out.println("m.getUsername() = " + m.getUsername());
-            }
-
-            System.out.println("members = " + findTeam);
+            em.persist(team);
 
             System.out.println("=============================");
 
