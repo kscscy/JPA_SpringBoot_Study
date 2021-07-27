@@ -6,7 +6,7 @@ import java.util.List;
 
 @Entity
 
-public class Member {
+public class Member extends BaseEntity {
     // JPA 한테 PK 가 무엇인지는 알려줘야 한다.
 
     @Id
