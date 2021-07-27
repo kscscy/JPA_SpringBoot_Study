@@ -18,17 +18,19 @@ public class JpaMain {
         try {
             // 영속
 
-            Member member = new Member();
-            member.setUsername("member1");
+            Movie movie = new Movie();
+            movie.setDirector("a");
+            movie.setActor("b");
+            movie.setName("영화1");
+            movie.setPrice(10000);
 
-            em.persist(member);
-
-            Team team = new Team();
-            team.setName("teamA");
-            // 이 내용은 Team 테이블에 insert 될만한 내용이 아니다
-            team.getMembers().add(member);
-
-            em.persist(team);
+            em.persist(movie);
+            
+            em.flush();
+            em.clear();
+            
+            Item item = em.find(Item.class, movie.getId());
+            System.out.println("item = " + item);
 
             System.out.println("=============================");
 
