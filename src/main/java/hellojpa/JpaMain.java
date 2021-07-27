@@ -1,6 +1,7 @@
 package hellojpa;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class JpaMain {
@@ -17,18 +18,14 @@ public class JpaMain {
 
         try {
             // 영속
-
             Member member = new Member();
-            member.setUsername("member1");
-
+            member.setUsername("user1");
+            member.setCreatedBy("kim");
+            member.setCreatedDate(LocalDateTime.now());
             em.persist(member);
 
-            Team team = new Team();
-            team.setName("teamA");
-            // 이 내용은 Team 테이블에 insert 될만한 내용이 아니다
-            team.getMembers().add(member);
-
-            em.persist(team);
+            em.flush();
+            em.clear();
 
             System.out.println("=============================");
 
