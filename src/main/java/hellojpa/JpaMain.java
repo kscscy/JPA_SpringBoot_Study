@@ -18,42 +18,17 @@ public class JpaMain {
         try {
             // 영속
 
-//            Member member = new Member();
-//            member.setUsername("CC");
-//            em.persist(member);
-            /*
-                sequence strategy
-                MEMBER_SEQ 의 다음값을 DB에서 가져온다
-                call next value for MEMBER_SEQ
+            Member member = new Member();
+            member.setUsername("member1");
 
-             */
+            em.persist(member);
 
-//            System.out.println("member.getId() = " + member.getId());
+            Team team = new Team();
+            team.setName("teamA");
+            // 이 내용은 Team 테이블에 insert 될만한 내용이 아니다
+            team.getMembers().add(member);
 
-            Member member1 = new Member();
-            member1.setUsername("A");
-
-            Member member2 = new Member();
-            member2.setUsername("B");
-
-            Member member3 = new Member();
-            member3.setUsername("C");
-
-            System.out.println("=============================");
-
-            // 처음 호출하면
-            // DB SEQ = 1  | App 1
-            // 그 다음
-            // DB SEQ = 51 | App 2
-            // DB SEQ = 51 | App 3
-
-            em.persist(member1);    // 1, 51
-//            em.persist(member2);    // Memory
-//            em.persist(member3);    // Memory
-
-            System.out.println("member1 = " + member1.getId());
-            System.out.println("member2 = " + member2.getId());
-            System.out.println("member3 = " + member3.getId());
+            em.persist(team);
 
             System.out.println("=============================");
 
