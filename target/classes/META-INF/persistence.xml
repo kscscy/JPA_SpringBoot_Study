@@ -19,7 +19,7 @@
             <!-- size 만큼 모아서 한방에 DB에 쿼리를 보낸다 -->
             <property name="hibernate.jdbc.batch_size" value="10"/>
             <!-- App 실행 시 DROP, CREATE 문을 실행해줌 -->
-            <property name="hibernate.hbm2ddl.auto" value="create"/>
+            <property name="hibernate.hbm2ddl.auto" value="update"/>
         </properties>
     </persistence-unit>
 </persistence>

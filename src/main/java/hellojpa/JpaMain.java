@@ -19,12 +19,26 @@ public class JpaMain {
 
         try {
             // 영속
+            Address address = new Address("city1", "street1", "zipcode1");
+
             Member member = new Member();
             member.setUsername("member1");
-            member.setHomeAddress(new Address("city1", "street1", "zipcode1"));
-            member.setWorkPeriod(new Period());
-
+            member.setHomeAddress(address);
             em.persist(member);
+
+            /*
+//            Address copyAddress = new Address(address.getCity(), address.getStreet(), address.getZipcode());
+            Member member2 = new Member();
+            member2.setUsername("member2");
+            member2.setHomeAddress(copyAddress);
+            em.persist(member2);
+//            member.getHomeAddress().setCity("newCity");
+*/
+
+            // address 를 통으로 갈아끼는 것이 맞다
+            // 또는 필요하면 내부에 copy 메소드를 만든다
+            Address newAddress = new Address("newCity", address.getStreet(), address.getZipcode());
+            member.setHomeAddress(newAddress);
 
             System.out.println("=============================");
 
